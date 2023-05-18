@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% set active_page = "stocktrader" %}
+
+{% block title %}stocktrader{% endblock %}
+
+{% block head %}
+{{ super() }}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock %}
+
+{% block page_content %}
+<style>
+.input-width {
+  text-align: center;
+  width: 200px;
+}
+</style>
+<style>
+  .content-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    min-width: 1250px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+   .content-table thead tr {
+      background-color: #009879;
+      color: #ffffff;
+      text-align: left;
+      font-weight: bold;
+   }
+
+  .content-table th,
+  .content-table td {
+    padding: 12px 15px;
+   }
+
+  .content-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+   }
+
+  .content-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+   }
+
+  .content-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+   }
+</style>
+<center>
+
+<h1 class="cap">Automated stock trader</h1>
+
+<form action="/form2" method="post">
+  <label for="dropdown">Select a stock, period, and interval:</label>
+  <br>
+  <select id="dropdown" name="ticker2" class="input-width">
+    <option value="AAPL">Apple</option>
+    <option value="GOOGL">Google</option>
+    <option value="TSLA">Tesla</option>
+    <option value="QQQ">Nasdaq</option>
+    <option value="MSFT">Microsoft</option>
+  </select>
+  <br>
+  <select id="dropdown" name="period" class="input-width">
+    <option value="1y">1 year</option>
+    <option value="2y">2 years</option>
+    <option value="3y">3 years</option>
+    <option value="4y">4 years</option>
+    <option value="5y">5 years</option>
+  </select>
+  <br>
+  <select id="dropdown" name="interval" class="input-width">
+    <option value="1d">Daily</option>
+    <option value="1wk">Weekly</option>
+    <option value="1mo">Monthly</option>
+  </select>
+  <br>
+  <input type="submit" value="Submit" class="input-width">
+</form>
+  <br>
+  <br>
+{% if ticker2 %}
+<h4>Displaying the trading results of {{ticker2}} for a time period of {{period}} with a {{interval}} interval.</h4>
+<br>
+<br>
+<table class="content-table">
+  <thead>
+    <tr>
+      <th>Label</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for label, value in trader_div.items() %}
+    <tr>
+      <td>{{ label }}</td>
+      <td>{{ value }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+  <br>
+  <br>
+  <h4>Displaying an overview of all the trades</h4>
+  <br>
+  <br>
+<table class="content-table">
+  <thead>
+    <tr>
+      <th>Ticker</th>
+      <th>Time of entry</th>
+      <th>Price at entry</th>
+      <th>Time of exit</th>
+      <th>Price at exit</th>
+      <th>Profit/Loss</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ticker, entryt, entryp, exitt, exitp, pl in pl_list %}
+    <tr>
+      <td>{{ ticker }}</td>
+      <td>{{ entryt }}</td>
+      <td>{{ entryp }}</td>
+      <td>{{ exitt }}</td>
+      <td>{{ exitp }}</td>
+      <td>{{ pl }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endif %}
+
+</center>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% set active_page = "formtwo" %}
+
+{% block title %}Form Two{% endblock %}
+
+{% block head %}
+{{ super() }}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+{% endblock %}
+
+{% block page_content %}
+
+<h1 class="cap">Automated stock trader</h1>
+{% if resp %}
+<h4>Displaying the trading results of {{ticker2}} for a time period of {{period}} with a {{interval}} interval.</h4>
+{% endif %}
+
+<form action="/formtwo" method="post">
+  <label for="dropdown">Select a stock, period, and interval:</label>
+  <br>
+  <select id="dropdown" name="ticker2">
+    <option value="AAPL">Apple</option>
+    <option value="GOOGL">Google</option>
+    <option value="TSLA">Tesla</option>
+    <option value="QQQ">Nasdaq</option>
+    <option value="MSFT">Microsoft</option>
+  </select>
+  <br>
+  <select id="dropdown" name="period">
+    <option value="1y">1 year</option>
+    <option value="2y">2 years</option>
+    <option value="3y">3 years</option>
+    <option value="4y">4 years</option>
+    <option value="5y">5 years</option>
+  </select>
+  <br>
+  <select id="dropdown" name="interval">
+    <option value="1d">Daily</option>
+    <option value="1wk">Weekly</option>
+    <option value="1mo">Monthly</option>
+  </select>
+  <br>
+  <input type="submit" value="Submit">
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+
+{% endblock %}
